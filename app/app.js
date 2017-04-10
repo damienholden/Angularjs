@@ -1,10 +1,20 @@
 var myNinjaApp = angular.module('myNinjaApp', ['ngRoute','ngAnimate']);
 
-myNinjaApp.config(['$routeProvider', function($routeProvider){
+myNinjaApp.config(['$routeProvider','$locationProvider', function($routeProvider, $locationProvider){
+$locationProvider.html5Mode(true);
+
 $routeProvider
   .when('/home', {
   templateUrl: 'views/home.html',
   controller: 'NinjaController'
+})
+.when('/contact', {
+templateUrl: 'views/contact.html',
+controller:'ContactController'
+})
+.when('/contact-success', {
+templateUrl: 'views/contact-success.html',
+controller:'ContactController'
 })
   .when('/directory',{
   templateUrl: 'views/directory.html',
@@ -54,12 +64,19 @@ $scope.removeNinja = function(ninja){
   };
 
   $scope.removeAll = function(){
-  $scope.ninjas = [];    
+  $scope.ninjas = [];
   };
 
   $http.get('data/ninjas.json').then(function(response){
 
     $scope.ninjas = response.data;
   });﻿
+
+}]);
+
+myNinjaApp.controller('ContactController', ['$scope','$location', function($scope, $location){
+$scope.sendMessage = function(){
+  $location.path ('/contact-success');
+};
 
 }]);
